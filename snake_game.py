@@ -1,4 +1,3 @@
-from matplotlib.pyplot import xlim
 from snake_game_utils import *
 from time import sleep
 main_surface = create_screen()
@@ -47,9 +46,33 @@ main_surface.onkeypress(go_up,"Up")
 main_surface.onkeypress(go_down,"Down")
 main_surface.onkeypress(go_right,"Right")
 main_surface.onkeypress(go_left,"Left")
+main_surface.tracer(False)
 
+score = 0
+score_board = create_turtle("square","white")
+score_board.ht()
+score_board.goto(0,260)
+
+snake_tails = []
 running = True
 while running:
+    score_board.clear()
+    score_board.write(f"Score:{score}", font=("arial",22), align="center")
     main_surface.update()
+    if snake_head.distance(snake_food) < 20:
+        change_food_position(snake_food)
+        score += 1
+        new_tail = create_turtle("square", "blue")
+        snake_tails.append(new_tail)
+    for i in range(len(snake_tails) -1, 0, -1):
+        x = snake_tails[i-1].xcor()
+        y = snake_tails[i-1].ycor()
+        snake_tails[i].goto(x,y)
+
+    if len(snake_tails) > 0:
+        x = snake_head.xcor()
+        y = snake_head.ycor()
+        snake_tails[0].goto(x,y)
+
     move()
     sleep(0.2)
