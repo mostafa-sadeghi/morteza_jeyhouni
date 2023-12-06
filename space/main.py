@@ -32,6 +32,7 @@ while running:
     if next_time - first_time < 2000:
         screen.blit(welcome_text, welcome_rect)
     else:
+
         my_player.move()
         my_player.draw(screen)
         bullet_group.update()
@@ -39,6 +40,8 @@ while running:
 
         enemy_group.update()
         enemy_group.draw(screen)
+        my_game.draw()
+        my_game.check_collisions()
         my_game.update()
     pygame.display.update()
     clock.tick(FPS)

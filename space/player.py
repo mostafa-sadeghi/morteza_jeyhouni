@@ -22,6 +22,6 @@ class Player(Sprite):
         if keys[pygame.K_RIGHT] and self.rect.right < WINDOW_WIDTH:
             self.rect.x += self.speed
     def fire(self):
-        if len(self.bullet_group) < 2:
+        if len(self.bullet_group) < 200:
             PlayerBullet(self.rect.centerx, self.rect.top, self.bullet_group)
             self.fire_sound.play()
