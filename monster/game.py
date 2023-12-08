@@ -77,7 +77,7 @@ class Game:
         self.target_image = new_target.image
         self.target_type = new_target.type
 
-    def update(self):
+    def update(self, screen):
         # we want to find collided monster
         collided_monster = pygame.sprite.spritecollideany(
             self.player, self.monster_group)
@@ -97,3 +97,26 @@ class Game:
                 self.player.lives -= 1
                 self.player.die_sound.play()
                 self.player.reset()
+
+                if self.player.lives <= 0:
+                    self.game_over(screen)
+
+    def game_over(self, screen):
+        game_over_text = self.font.render(
+            "Game over, press enter to play again", True, (255, 0, 0))
+        game_over_rect = game_over_text.get_rect()
+        game_over_rect.center = (WINDOW_WIDTH/2, WINDOW_HEIGHT/2)
+        screen.fill((0, 0, 0))
+        screen.blit(game_over_text, game_over_rect)
+        pygame.display.update()
+        is_paused = True
+        while is_paused:
+            for event in pygame.event.get():
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        is_paused = False
+                        self.player.lives = 3
+                        self.score = 0
+                if event.type == pygame.QUIT:
+                        is_paused = True
+                        exit()
